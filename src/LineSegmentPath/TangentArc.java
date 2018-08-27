@@ -27,20 +27,24 @@ public class TangentArc {
 
         //need to find equation for circle center
         //(x-h)^2 + (y-k)^ 2 = r^2
+        //equation source: http://mathforum.org/library/drmath/view/53027.html
 
-        LineSegment d = new LineSegment(start, end);
-
-        double h = Math.sqrt(Math.pow(radius, 2) - d.getLength()/2);
-        double dy = end.getY()-start.getY();
-        double dx = end.getX()- start.getX();
-
+        LineSegment chord = new LineSegment(start, end);
         Point midpoint = new Point((start.getX() + end.getX())/2, (start.getY() + end.getY())/2 );
+        double q = chord.getLength();
+        double r = radius;
+        double x3 = midpoint.getX();
+        double y3 = midpoint.getY();
+        double x1 = start.getX();
+        double y1 = start.getY();
+        double x2 = end.getX();
+        double y2 = end.getY();
 
-        Point center1 = new Point((midpoint.getX() + h * (dy/d.getLength())),(midpoint.getY() - h * (dx/d.getLength())));
-        Point center2 = new Point((midpoint.getX() - h * (dy/d.getLength())),(midpoint.getY() + h * (dx/d.getLength())));
+        Point center1 = new Point((x3 + Math.sqrt(Math.pow(r,2) - Math.pow((q/2), 2)) * ((y1-y2)/q) ),(y3 + Math.sqrt(Math.pow(r,2) - Math.pow((q/2), 2)) * ((x2-x1)/q) ) );
+        Point center2 = new Point((x3 - Math.sqrt(Math.pow(r,2) - Math.pow((q/2), 2)) * ((y1-y2)/q) ),(y3 - Math.sqrt(Math.pow(r,2) - Math.pow((q/2), 2)) * ((x2-x1)/q) ) );
 
         LineSegment radius1 = new LineSegment(center1, start);
-        boolean isTangent = (first.getUnitVector().getX() * radius1.getUnitVector().getX() + first.getUnitVector().getY() * radius1.getUnitVector().getY()) == 0;
+        boolean isTangent = Math.abs((first.getUnitVector().getX() * radius1.getUnitVector().getX() + first.getUnitVector().getY() * radius1.getUnitVector().getY())) < 0.01;
         System.out.println(isTangent);
         System.out.println("Center 1: " + center1);
         System.out.println("Center 2: " + center2);
@@ -73,12 +77,12 @@ public class TangentArc {
     private Point getTangencyPoint(LineSegment l, Point p, double remainder, boolean something){
         if(something) {
             Point point = new Point(-1 * (l.getUnitVector().getX() * remainder), -1 * (l.getUnitVector().getY() * remainder));
-            Point tangencyPoint = new Point((p.getX() + point.getX()), (p.getY() + point.getX()));
+            Point tangencyPoint = new Point((p.getX() + point.getX()), (p.getY() + point.getY()));
             return tangencyPoint;
         }
         else{
             Point point = new Point((l.getUnitVector().getX() * remainder), (l.getUnitVector().getY() * remainder));
-            Point tangencyPoint = new Point((p.getX() + point.getX()), (p.getY() + point.getX()));
+            Point tangencyPoint = new Point((p.getX() + point.getX()), (p.getY() + point.getY()));
             return tangencyPoint;
         }
     }
