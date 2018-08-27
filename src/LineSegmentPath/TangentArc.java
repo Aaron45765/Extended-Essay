@@ -9,17 +9,17 @@ public class TangentArc {
     public TangentArc(LineSegment first, LineSegment second, double radius){
         System.out.println(first);
         System.out.println(second);
-        double theta = Math.acos((first.getUnitVector().getX() * second.getUnitVector().getX()) + (first.getUnitVector().getY() * second.getUnitVector().getY()));
+        double theta = Math.PI- Math.acos((first.getUnitVector().getX() * second.getUnitVector().getX()) + (first.getUnitVector().getY() * second.getUnitVector().getY()));
         System.out.println("Unit Vectors: " + first.getUnitVector() + " " + second.getUnitVector());
         System.out.println("Angle: " + theta);
         double remainder = radius / Math.tan(theta/2);
         System.out.println("Remainder: " + remainder);
 
 
+        this.start = getTangencyPoint(first, first.getEndPoint(), remainder, true);
 
 
-        this.start = getTangencyPoint(first, first.getEndPoint(), remainder);
-        this.end = getTangencyPoint(second, second.getStartPoint(), remainder);
+        this.end = getTangencyPoint(second, second.getStartPoint(), remainder, false);
         this.radius = radius;
 
         System.out.println("Starting Point: " + start);
@@ -51,7 +51,7 @@ public class TangentArc {
 
     }
 
-    private Point getTangencyPoint(LineSegment l, Point p, double remainder){
+    /*private Point getTangencyPoint(LineSegment l, Point p, double remainder){
         double a = Math.pow(l.getSlope(), 2) + 1;
         double b = 2 * (l.getYInt() * l.getSlope() - p.getX()*l.getSlope() - p.getY());
         double c = Math.pow(l.getYInt(), 2 ) - 2*l.getYInt()*p.getY() + Math.pow(p.getY(),2) + Math.pow(p.getX(), 2) - Math.pow(remainder,2);
@@ -68,7 +68,19 @@ public class TangentArc {
             System.out.println(l.getNewPoint(x2));
             return l.getNewPoint(x2);
         }
+    }*/
 
+    private Point getTangencyPoint(LineSegment l, Point p, double remainder, boolean something){
+        if(something) {
+            Point point = new Point(-1 * (l.getUnitVector().getX() * remainder), -1 * (l.getUnitVector().getY() * remainder));
+            Point tangencyPoint = new Point((p.getX() + point.getX()), (p.getY() + point.getX()));
+            return tangencyPoint;
+        }
+        else{
+            Point point = new Point((l.getUnitVector().getX() * remainder), (l.getUnitVector().getY() * remainder));
+            Point tangencyPoint = new Point((p.getX() + point.getX()), (p.getY() + point.getX()));
+            return tangencyPoint;
+        }
     }
 
     public Point getCenter(){
