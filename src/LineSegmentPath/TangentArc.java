@@ -7,13 +7,13 @@ public class TangentArc {
     Point start, end, center;
 
     public TangentArc(LineSegment first, LineSegment second, double radius){
-        System.out.println(first);
-        System.out.println(second);
+        //System.out.println(first);
+        //System.out.println(second);
         double theta = Math.PI- Math.acos((first.getUnitVector().getX() * second.getUnitVector().getX()) + (first.getUnitVector().getY() * second.getUnitVector().getY()));
-        System.out.println("Unit Vectors: " + first.getUnitVector() + " " + second.getUnitVector());
-        System.out.println("Angle: " + theta);
+        //System.out.println("Unit Vectors: " + first.getUnitVector() + " " + second.getUnitVector());
+        //System.out.println("Angle: " + theta);
         double remainder = radius / Math.tan(theta/2);
-        System.out.println("Remainder: " + remainder);
+        //System.out.println("Remainder: " + remainder);
 
 
         this.start = getTangencyPoint(first, first.getEndPoint(), remainder, true);
@@ -22,8 +22,8 @@ public class TangentArc {
         this.end = getTangencyPoint(second, second.getStartPoint(), remainder, false);
         this.radius = radius;
 
-        System.out.println("Starting Point: " + start);
-        System.out.println("Ending Point: " + end);
+        //System.out.println("Starting Point: " + start);
+        //System.out.println("Ending Point: " + end);
 
         //need to find equation for circle center
         //(x-h)^2 + (y-k)^ 2 = r^2
@@ -45,9 +45,9 @@ public class TangentArc {
 
         LineSegment radius1 = new LineSegment(center1, start);
         boolean isTangent = Math.abs((first.getUnitVector().getX() * radius1.getUnitVector().getX() + first.getUnitVector().getY() * radius1.getUnitVector().getY())) < 0.01;
-        System.out.println(isTangent);
-        System.out.println("Center 1: " + center1);
-        System.out.println("Center 2: " + center2);
+        //System.out.println(isTangent);
+        //System.out.println("Center 1: " + center1);
+        //System.out.println("Center 2: " + center2);
         if(isTangent){
             center = center1;
         }else
@@ -93,6 +93,14 @@ public class TangentArc {
 
     public double getRadius(){
         return radius;
+    }
+
+    public Point getStart(){
+        return start;
+    }
+
+    public Point getEnd(){
+        return end;
     }
 
 }
